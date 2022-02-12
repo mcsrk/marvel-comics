@@ -1,8 +1,4 @@
-import { Component } from "react";
-import { Button } from "antd";
-import "antd/dist/antd.css";
-import Demo from "./Demo";
-
+import React, { useEffect, useState } from "react";
 const comicsData = [
   {
     title: "Uncanny X-Men (1963) #452",
@@ -59,26 +55,43 @@ const comicsData = [
     },
   },
 ];
-
-function getComics() {
+const getComics = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(comicsData);
     }, 1000);
   });
-}
+};
 
-export default class Home extends Component {
-  state = {
-    comics: [],
-  };
+const Demo = () => {
+  const [data, setData] = useState(comicsData);
 
-  async componentDidMount() {
-    const responseComics = await getComics();
-    this.setState({ comics: responseComics });
-  }
+  useEffect(() => {
+    const responseComics = getComics();
+    // setData(responseComics);
+  }, []);
 
-  render() {
-    return <Demo />;
-  }
-}
+  return (
+    <div>
+      <h1>Comics</h1>
+      <ul>
+        <li>
+          {data.map((item) => (
+            <div>
+              <span>{item.title}</span>
+              <img
+                style={{ height: "100px", width: "100px" }}
+                src={
+                  item.images[0].path + "/detail." + item.images[0].extension
+                }
+              />
+            </div>
+          ))}
+        </li>
+      </ul>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+};
+
+export default Demo;
