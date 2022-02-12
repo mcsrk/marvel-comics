@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Button } from "antd";
 import "antd/dist/antd.css";
 import Demo from "./Demo";
+import MainPage from "./MainPage";
 
 const comicsData = [
   {
@@ -79,6 +80,6 @@ export default class Home extends Component {
   }
 
   render() {
-    return <Demo />;
+    return <MainPage />;
   }
 }
