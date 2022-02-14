@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography } from "antd";
+import { Button, Image, Row, Space, Tooltip, Typography } from "antd";
 const { Text } = Typography;
 
 const ComicCard = ({ comicInfo }) => {
@@ -22,28 +22,32 @@ const ComicCard = ({ comicInfo }) => {
   return (
     <div
       style={{
+        height: "456px",
         maxWidth: "350px",
         boxShadow: " 0 20px 20px rgba(0,0, 0,.16)",
-        borderRadius: "3px",
-        transition: "240ms",
-        "&:hover": {
-          boxShadow: "0 40px 40px rgba0,0,0,.32)",
-          transform: "translate(" + 0 + "px, " + -20 + "px)",
-        },
+        position: "relative",
+        borderRadius: "4px",
       }}
     >
       <div
         style={{
           width: "100%",
-          height: "200px",
-          backgroundImage: "url(" + getImage() + ")",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center center",
-          backgroundSize: "cover",
-          borderRadius: "4px 4px 0 0",
+          position: "absolute",
         }}
-      ></div>
-      <div style={{ padding: "24px", backgroundColor: "white" }}>
+      >
+        <Image width={"100%"} src={getImage()} />
+      </div>
+
+      <div
+        style={{
+          padding: "16px 24px",
+          height: "auto",
+          width: "100%",
+          position: "absolute",
+          bottom: "0",
+          backgroundColor: "white",
+        }}
+      >
         <h2
           style={{
             margin: 0,
@@ -54,21 +58,7 @@ const ComicCard = ({ comicInfo }) => {
         >
           {comicInfo?.title ?? "Sin título"}
         </h2>
-        {/* <ul
-          style={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            margin: "12px 0 0 0",
-            fontWize: "14px",
-            fontWeight: "400",
-            lineHeight: "20px",
-            color: "#4B4F56",
-          }}
-        >
-          <li>Zona: Kennedy</li>
-          <li>Capacidad: 20 m^3</li>
-          <li>Condutor: Bruce "duro de matar" Willis</li>
-        </ul> */}
+
         <hr
           style={{
             margin: "16px 0 0 0",
@@ -78,7 +68,7 @@ const ComicCard = ({ comicInfo }) => {
         ></hr>
         <Text
           style={{
-            margin: "8px 0 4px 0",
+            margin: "8px 0 8px 0",
             fontSize: "12px",
             fontWeight: 400,
             color: "#90949C",
@@ -92,14 +82,24 @@ const ComicCard = ({ comicInfo }) => {
         </Text>
         <br></br>
 
-        <Button
-          type={"primary"}
-          style={{
-            fontWeight: 700,
-          }}
-        >
-          {comicInfo?.price ?? "sin precio"} USD
-        </Button>
+        <Row>
+          <Tooltip placement="top" title={"Copia física"}>
+            <Button
+              type="primary"
+              style={{
+                fontWeight: 700,
+                margin: "0 8px 4px 0",
+              }}
+            >
+              {comicInfo.prices[0].price} USD
+            </Button>
+          </Tooltip>
+          {comicInfo.prices.length == 2 && (
+            <Tooltip placement="top" title={"Copia digital"}>
+              <Button type="secondary">{comicInfo.prices[1].price} USD</Button>
+            </Tooltip>
+          )}
+        </Row>
       </div>
     </div>
   );
