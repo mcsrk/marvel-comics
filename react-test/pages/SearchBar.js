@@ -2,19 +2,17 @@ import React from "react";
 import { Affix, Col, Row, Input, Typography } from "antd";
 const { Search } = Input;
 const { Title, Paragraph } = Typography;
-const SearchBar = () => {
+const SearchBar = ({ setInput, input }) => {
   return (
     <div
       style={{
         minHeight: "280px",
         width: "100%",
-        backgroundImage:
-          "url(" +
-          "https://i.pinimg.com/originals/e3/a8/c0/e3a8c0ae20a3940fce0cfb9035b0ae6d.jpg" +
-          ")",
+        backgroundImage: "url(" + "/images/bg.png" + ")",
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        paddingTop: "32x",
       }}
     >
       <Col
@@ -26,25 +24,28 @@ const SearchBar = () => {
         }}
       >
         <Row>
-          <Title
-            level={1}
-            style={{
-              textAlign: "center !important",
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
-            Catalogo de Cómics
-          </Title>
-          <Paragraph
-            style={{
-              textAlign: "center !important",
-              color: "white",
-              fontSize: 18,
-            }}
-          >
-            Showcase your products by selecting one of the pre-existing free
-          </Paragraph>
+          <Typography>
+            <Title
+              level={1}
+              style={{
+                textAlign: "center !important",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              Catalogo de Cómics
+            </Title>
+            <Paragraph
+              style={{
+                textAlign: "center !important",
+                color: "white",
+                fontSize: 18,
+              }}
+            >
+              Encuentra todos tus comics favoritos de marvel en un solo lugar.
+              Compra online y recibe en casa.
+            </Paragraph>
+          </Typography>
         </Row>
         <Row>
           <Affix style={{ width: "70%", margin: "12px auto" }} offsetTop={10}>
@@ -53,6 +54,8 @@ const SearchBar = () => {
               size="large"
               // onSearch={onSearch}
               enterButton
+              onChange={setInput}
+              value={input}
             />
           </Affix>
         </Row>
