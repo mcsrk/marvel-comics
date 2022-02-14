@@ -1,10 +1,10 @@
+import { Button } from "antd";
 import React from "react";
 
-const ComicCard = () => {
+const ComicCard = ({ title, author, price }) => {
   return (
     <div
       style={{
-        margin: "80px auto",
         maxWidth: "350px",
         boxShadow: " 0 20px 20px rgba(0,0, 0,.16)",
         borderRadius: "3px",
@@ -18,7 +18,7 @@ const ComicCard = () => {
       <div
         style={{
           width: "100%",
-          height: "296px",
+          height: "200px",
           backgroundImage:
             "url(" +
             "https://www.mudanzaexpress.cl/wp-content/uploads/2019/06/white_box_truck-768x512.jpeg" +
@@ -38,9 +38,9 @@ const ComicCard = () => {
             lineHeight: "32px",
           }}
         >
-          Camión de Mudanza
+          {title ?? "Sin título"}
         </h2>
-        <ul
+        {/* <ul
           style={{
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -54,7 +54,7 @@ const ComicCard = () => {
           <li>Zona: Kennedy</li>
           <li>Capacidad: 20 m^3</li>
           <li>Condutor: Bruce "duro de matar" Willis</li>
-        </ul>
+        </ul> */}
         <hr
           style={{
             margin: "16px 0 0 0",
@@ -64,22 +64,23 @@ const ComicCard = () => {
         ></hr>
         <h6
           style={{
-            margin: "16px 0 0 0",
-            fontSize: "12px",
-            fontWeight: 400,
-            color: "#90949C",
-          }}
-        ></h6>
-        <h6
-          style={{
-            margin: "16px 0 0 0",
+            margin: "8px 0 4px 0",
             fontSize: "12px",
             fontWeight: 400,
             color: "#90949C",
           }}
         >
-          Ver más
+          {author ?? "Sin autor conocido"}
         </h6>
+
+        <Button
+          type={"primary"}
+          style={{
+            fontWeight: 700,
+          }}
+        >
+          {price ?? "sin precio"}
+        </Button>
       </div>
     </div>
   );
