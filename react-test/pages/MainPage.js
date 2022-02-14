@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Affix,
   Breadcrumb,
+  Button,
   Col,
   notification,
   Radio,
@@ -14,11 +15,26 @@ import ComicList from "./ComicList";
 import axios from "axios";
 const { Title } = Typography;
 const MainPage = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState();
   const [radioValue, setRadioValue] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [comicsData, setComicsData] = useState([]);
-
+  const [crumb, setCrumb] = useState(null);
+  const chars = [
+    { name: "Mystique", id: "1009465" },
+    { name: "Professor X", id: "1009504" },
+    { name: "Howard el Pato", id: "1010373" },
+    { name: "Thor", id: "1009664" },
+  ];
+  useEffect(() => {
+    if (radioValue) {
+      let temp = chars.filter((e) => e.id === radioValue)[0].name;
+      setCrumb(temp);
+    } else {
+      setCrumb(null);
+    }
+  }, [radioValue]);
   const useDebouncedEffect = (effect, deps, delay) => {
     useEffect(() => {
       const handler = setTimeout(() => effect(), delay);
@@ -41,6 +57,7 @@ const MainPage = () => {
     try {
       let res = await axios.get(`http://gateway.marvel.com/v1/public/comics`, {
         params: {
+          ...(input ? { titleStartsWith: input } : {}),
           ...(radioValue ? { characters: radioValue } : {}),
           ts: TS,
           apikey: APIKEY,
@@ -90,22 +107,37 @@ const MainPage = () => {
               </Row>
               <Row>
                 <Affix style={{ margin: "12px auto 0px auto" }} offsetTop={54}>
-                  <Radio.Group
-                    onChange={onChange}
-                    size="large"
-                    defaultValue={radioValue}
-                  >
-                    <Radio.Button value="1009465">Mystique</Radio.Button>
-                    <Radio.Button value="1009504">Professor X</Radio.Button>
-                    <Radio.Button value="1010373">Howard el Pato</Radio.Button>
-                    <Radio.Button value="1009664">Thor</Radio.Button>
-                  </Radio.Group>
+                  <div>
+                    <Radio.Group
+                      onChange={onChange}
+                      size="large"
+                      defaultValue={radioValue}
+                    >
+                      <Radio.Button value="1009465">Mystique</Radio.Button>
+                      <Radio.Button value="1009504">Professor X</Radio.Button>
+                      <Radio.Button value="1010373">
+                        Howard el Pato
+                      </Radio.Button>
+                      <Radio.Button value="1009664">Thor</Radio.Button>
+                    </Radio.Group>
+                    <Button
+                      type="link"
+                      onClick={() => {
+                        setRadioValue(null);
+                        setInput();
+                      }}
+                    >
+                      Limpiar
+                    </Button>
+                  </div>
                 </Affix>
               </Row>
               <Row>
                 <Breadcrumb style={{ margin: "16px 0" }}>
                   <Breadcrumb.Item>Comics</Breadcrumb.Item>
-                  <Breadcrumb.Item>Mystique</Breadcrumb.Item>
+                  <Breadcrumb.Item>
+                    {crumb} {input && crumb ? " & " : ""} {input}
+                  </Breadcrumb.Item>
                 </Breadcrumb>
               </Row>
             </Col>
