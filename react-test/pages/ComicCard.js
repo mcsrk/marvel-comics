@@ -85,6 +85,7 @@ const ComicCard = ({ comicInfo }) => {
         <Row>
           <Tooltip placement="top" title={"Copia física"}>
             <Badge
+              offset={[-20, -3]}
               style={comicInfo.prices[0].price === 0 ? {} : { display: "none" }}
               count={"Free"}
             >
