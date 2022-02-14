@@ -21,6 +21,7 @@ const SearchBar = ({ setInput, input }) => {
           padding: "0 15px",
           margin: "0 auto",
           alignItems: "center",
+          textAlign: "center",
         }}
       >
         <Row>
@@ -28,16 +29,15 @@ const SearchBar = ({ setInput, input }) => {
             <Title
               level={1}
               style={{
-                textAlign: "center !important",
                 color: "white",
                 fontWeight: "bold",
+                marginTop: "32px",
               }}
             >
               Catalogo de Cómics
             </Title>
             <Paragraph
               style={{
-                textAlign: "center !important",
                 color: "white",
                 fontSize: 18,
               }}
@@ -54,7 +54,7 @@ const SearchBar = ({ setInput, input }) => {
               size="large"
               // onSearch={onSearch}
               enterButton
-              onChange={setInput}
+              onChange={(e) => setInput(e.target.value)}
               value={input}
             />
           </Affix>
