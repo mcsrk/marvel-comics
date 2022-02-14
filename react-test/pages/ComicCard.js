@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Image, Row, Space, Tooltip, Typography } from "antd";
+import { Badge, Button, Image, Row, Space, Tooltip, Typography } from "antd";
 const { Text } = Typography;
 
 const ComicCard = ({ comicInfo }) => {
@@ -84,15 +84,20 @@ const ComicCard = ({ comicInfo }) => {
 
         <Row>
           <Tooltip placement="top" title={"Copia física"}>
-            <Button
-              type="primary"
-              style={{
-                fontWeight: 700,
-                margin: "0 8px 4px 0",
-              }}
+            <Badge
+              style={comicInfo.prices[0].price === 0 ? {} : { display: "none" }}
+              count={"Free"}
             >
-              {comicInfo.prices[0].price} USD
-            </Button>
+              <Button
+                type="primary"
+                style={{
+                  fontWeight: 700,
+                  margin: "0 8px 4px 0",
+                }}
+              >
+                {comicInfo.prices[0].price} USD
+              </Button>
+            </Badge>
           </Tooltip>
           {comicInfo.prices.length == 2 && (
             <Tooltip placement="top" title={"Copia digital"}>
