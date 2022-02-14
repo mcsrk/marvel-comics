@@ -7,6 +7,8 @@ import axios from "axios";
 const { Title } = Typography;
 const MainPage = () => {
   const [input, setInput] = useState("");
+  const [radioValue, setRadioValue] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [comicsData, setComicsData] = useState([]);
 
   const useDebouncedEffect = (effect, deps, delay) => {
@@ -27,19 +29,32 @@ const MainPage = () => {
     const TS = "1";
     const APIKEY = "22d97eb6512779e32a83d97ad7e7ff41";
     const HASH = "fe011abff2ca533eb29fff528cc613d9";
+    setLoading(true);
     try {
       let res = await axios.get(`http://gateway.marvel.com/v1/public/comics`, {
-        params: { ts: TS, apikey: APIKEY, hash: HASH },
+        params: {
+          ...(radioValue ? { characters: radioValue } : {}),
+          ts: TS,
+          apikey: APIKEY,
+          hash: HASH,
+        },
       });
       setComicsData(res.data.data.results);
+      setLoading(false);
+
       console.warn(res.data.data.results);
     } catch (err) {
       console.error(err);
       openNotification();
+      setLoading(false);
     }
   };
 
-  useDebouncedEffect(getComicsByInput, [input], 250);
+  useDebouncedEffect(getComicsByInput, [input, radioValue], 250);
+
+  const onChange = (e) => {
+    setRadioValue(e.target.value);
+  };
 
   return (
     <>
@@ -69,13 +84,15 @@ const MainPage = () => {
               </Row>
               <Row>
                 <Radio.Group
-                  defaultValue="spiderman"
+                  onChange={onChange}
+                  size="large"
+                  defaultValue={radioValue}
                   style={{ margin: "12px auto 0px auto" }}
                 >
-                  <Radio.Button value="spiderman">SpiderMan</Radio.Button>
-                  <Radio.Button value="Wolverine">Wolverine</Radio.Button>
-                  <Radio.Button value="Hulk">Hulk</Radio.Button>
-                  <Radio.Button value="Thor">Thor</Radio.Button>
+                  <Radio.Button value="1009465">Mystique</Radio.Button>
+                  <Radio.Button value="1009504">Professor X</Radio.Button>
+                  <Radio.Button value="1010373">Howard el Pato</Radio.Button>
+                  <Radio.Button value="1009664">Thor</Radio.Button>
                 </Radio.Group>
               </Row>
               <Row>
@@ -87,7 +104,7 @@ const MainPage = () => {
               </Row>
             </Col>
 
-            <ComicList comicsData={comicsData} />
+            <ComicList comicsData={comicsData} loading={loading} />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
