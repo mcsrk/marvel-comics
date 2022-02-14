@@ -52,7 +52,6 @@ const SearchBar = ({ setInput, input }) => {
             <Search
               placeholder="input search text"
               size="large"
-              // onSearch={onSearch}
               enterButton
               onChange={(e) => setInput(e.target.value)}
               value={input}
