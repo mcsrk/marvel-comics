@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Col, notification, Radio, Row, Typography } from "antd";
+import {
+  Affix,
+  Breadcrumb,
+  Col,
+  notification,
+  Radio,
+  Row,
+  Typography,
+} from "antd";
 import Layout, { Content, Footer } from "antd/lib/layout/layout";
 import SearchBar from "./SearchBar";
 import ComicList from "./ComicList";
@@ -40,11 +48,9 @@ const MainPage = () => {
         },
       });
       setComicsData(res.data.data.results);
-      setLoading(false);
 
-      console.warn(res.data.data.results);
+      setLoading(false);
     } catch (err) {
-      console.error(err);
       openNotification();
       setLoading(false);
     }
@@ -83,23 +89,23 @@ const MainPage = () => {
                 </Typography>
               </Row>
               <Row>
-                <Radio.Group
-                  onChange={onChange}
-                  size="large"
-                  defaultValue={radioValue}
-                  style={{ margin: "12px auto 0px auto" }}
-                >
-                  <Radio.Button value="1009465">Mystique</Radio.Button>
-                  <Radio.Button value="1009504">Professor X</Radio.Button>
-                  <Radio.Button value="1010373">Howard el Pato</Radio.Button>
-                  <Radio.Button value="1009664">Thor</Radio.Button>
-                </Radio.Group>
+                <Affix style={{ margin: "12px auto 0px auto" }} offsetTop={54}>
+                  <Radio.Group
+                    onChange={onChange}
+                    size="large"
+                    defaultValue={radioValue}
+                  >
+                    <Radio.Button value="1009465">Mystique</Radio.Button>
+                    <Radio.Button value="1009504">Professor X</Radio.Button>
+                    <Radio.Button value="1010373">Howard el Pato</Radio.Button>
+                    <Radio.Button value="1009664">Thor</Radio.Button>
+                  </Radio.Group>
+                </Affix>
               </Row>
               <Row>
                 <Breadcrumb style={{ margin: "16px 0" }}>
-                  <Breadcrumb.Item>Home</Breadcrumb.Item>
-                  <Breadcrumb.Item>List</Breadcrumb.Item>
-                  <Breadcrumb.Item>App</Breadcrumb.Item>
+                  <Breadcrumb.Item>Comics</Breadcrumb.Item>
+                  <Breadcrumb.Item>Mystique</Breadcrumb.Item>
                 </Breadcrumb>
               </Row>
             </Col>
