@@ -31,8 +31,8 @@ const MainPage = () => {
       let res = await axios.get(`http://gateway.marvel.com/v1/public/comics`, {
         params: { ts: TS, apikey: APIKEY, hash: HASH },
       });
-      // setComicsData(res);
-      console.warn(res.data.data);
+      setComicsData(res.data.data.results);
+      console.warn(res.data.data.results);
     } catch (err) {
       console.error(err);
       openNotification();
@@ -87,7 +87,7 @@ const MainPage = () => {
               </Row>
             </Col>
 
-            <ComicList />
+            <ComicList comicsData={comicsData} />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

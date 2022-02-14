@@ -34,7 +34,7 @@ const data = [
   },
 ];
 
-const ComicList = ({ comicData }) => {
+const ComicList = ({ comicsData }) => {
   return (
     <List
       style={{
@@ -43,10 +43,10 @@ const ComicList = ({ comicData }) => {
         background: "#fff",
       }}
       grid={{ gutter: 16, column: 4 }}
-      dataSource={data}
+      dataSource={comicsData}
       renderItem={(ele) => (
         <List.Item>
-          <ComicCard title={ele.title} author={ele.author} price={ele.price} />
+          <ComicCard comicInfo={ele} />
         </List.Item>
       )}
     />

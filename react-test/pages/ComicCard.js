@@ -1,7 +1,16 @@
-import { Button } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Button, Typography } from "antd";
+const { Text } = Typography;
 
-const ComicCard = ({ title, author, price }) => {
+const ComicCard = ({ comicInfo }) => {
+  const [authors, setAuthors] = useState([]);
+
+  useEffect(() => {
+    let authorsArray = comicInfo.creators.items.map(({ name }) => name);
+    setAuthors(authorsArray);
+    console.log("nombres: ", authorsArray);
+  }, [comicInfo]);
+
   return (
     <div
       style={{
@@ -33,12 +42,12 @@ const ComicCard = ({ title, author, price }) => {
         <h2
           style={{
             margin: 0,
-            fontSize: "24px",
+            fontSize: "20px",
             fontWeight: "400",
             lineHeight: "32px",
           }}
         >
-          {title ?? "Sin título"}
+          {comicInfo?.title ?? "Sin título"}
         </h2>
         {/* <ul
           style={{
@@ -62,16 +71,21 @@ const ComicCard = ({ title, author, price }) => {
             borderTop: "1px solid #ECEFF1",
           }}
         ></hr>
-        <h6
+        <Text
           style={{
             margin: "8px 0 4px 0",
             fontSize: "12px",
             fontWeight: 400,
             color: "#90949C",
+            width: "100%",
           }}
+          ellipsis={{ tooltip: authors.join(", ") }}
         >
-          {author ?? "Sin autor conocido"}
-        </h6>
+          {authors.length
+            ? "Autores: " + authors.join(", ")
+            : "Sin autor(es) conocidos"}
+        </Text>
+        <br></br>
 
         <Button
           type={"primary"}
@@ -79,7 +93,7 @@ const ComicCard = ({ title, author, price }) => {
             fontWeight: 700,
           }}
         >
-          {price ?? "sin precio"}
+          {comicInfo?.price ?? "sin precio"} USD
         </Button>
       </div>
     </div>
