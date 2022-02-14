@@ -50,7 +50,7 @@ const SearchBar = ({ setInput, input }) => {
         <Row>
           <Affix style={{ width: "70%", margin: "12px auto" }} offsetTop={10}>
             <Search
-              placeholder="input search text"
+              placeholder="Buscar cómic por título..."
               size="large"
               enterButton
               onChange={(e) => setInput(e.target.value)}
