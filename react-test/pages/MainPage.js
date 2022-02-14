@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Affix,
-  Breadcrumb,
-  Button,
-  Col,
-  notification,
-  Radio,
-  Row,
-  Typography,
-} from "antd";
+import { Col, notification } from "antd";
 import Layout, { Content, Footer } from "antd/lib/layout/layout";
-import SearchBar from "./SearchBar";
-import ComicList from "./ComicList";
+import SearchBar from "./components/SearchBar";
+import ComicList from "./components/ComicList";
 import axios from "axios";
-const { Title } = Typography;
+import CharacterFilter from "./components/CharacterFilter";
+import { useDebouncedEffect } from "../utils/useDebounceEffect";
 const MainPage = () => {
   const [input, setInput] = useState();
   const [radioValue, setRadioValue] = useState(null);
@@ -27,6 +19,7 @@ const MainPage = () => {
     { name: "Howard el Pato", id: "1010373" },
     { name: "Thor", id: "1009664" },
   ];
+
   useEffect(() => {
     if (radioValue) {
       let temp = chars.filter((e) => e.id === radioValue)[0].name;
@@ -35,13 +28,7 @@ const MainPage = () => {
       setCrumb(null);
     }
   }, [radioValue]);
-  const useDebouncedEffect = (effect, deps, delay) => {
-    useEffect(() => {
-      const handler = setTimeout(() => effect(), delay);
-      return () => clearTimeout(handler);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [...(deps || []), delay]);
-  };
+
   const openNotification = () => {
     notification.error({
       message: `Error en la búsqueda`,
@@ -86,61 +73,12 @@ const MainPage = () => {
           <SearchBar setInput={setInput} input={input} />
 
           <div style={{ padding: "0 50px" }}>
-            <Col>
-              <Row
-                style={{
-                  marginTop: "16px",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography>
-                  <Title
-                    level={5}
-                    style={{
-                      textAlign: "center",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Filtra por personajes
-                  </Title>
-                </Typography>
-              </Row>
-              <Row>
-                <Affix style={{ margin: "12px auto 0px auto" }} offsetTop={54}>
-                  <div>
-                    <Radio.Group
-                      onChange={onChange}
-                      size="large"
-                      defaultValue={radioValue}
-                    >
-                      <Radio.Button value="1009465">Mystique</Radio.Button>
-                      <Radio.Button value="1009504">Professor X</Radio.Button>
-                      <Radio.Button value="1010373">
-                        Howard el Pato
-                      </Radio.Button>
-                      <Radio.Button value="1009664">Thor</Radio.Button>
-                    </Radio.Group>
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        setRadioValue(null);
-                        setInput();
-                      }}
-                    >
-                      Limpiar
-                    </Button>
-                  </div>
-                </Affix>
-              </Row>
-              <Row>
-                <Breadcrumb style={{ margin: "16px 0" }}>
-                  <Breadcrumb.Item>Comics</Breadcrumb.Item>
-                  <Breadcrumb.Item>
-                    {crumb} {input && crumb ? " & " : ""} {input}
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </Row>
-            </Col>
+            <CharacterFilter
+              radioValue={radioValue}
+              onChange={onChange}
+              crumb={crumb}
+              input={input}
+            />
 
             <ComicList comicsData={comicsData} loading={loading} />
           </div>
