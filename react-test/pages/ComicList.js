@@ -2,9 +2,10 @@ import { Col, List, Row } from "antd";
 import React from "react";
 import ComicCard from "./ComicCard";
 
-const ComicList = ({ comicsData }) => {
+const ComicList = ({ comicsData, loading }) => {
   return (
     <List
+      loading={loading}
       style={{
         minHeight: "280px",
         padding: "24px",
