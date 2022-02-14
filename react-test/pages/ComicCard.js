@@ -8,9 +8,17 @@ const ComicCard = ({ comicInfo }) => {
   useEffect(() => {
     let authorsArray = comicInfo.creators.items.map(({ name }) => name);
     setAuthors(authorsArray);
-    console.log("nombres: ", authorsArray);
   }, [comicInfo]);
 
+  const getImage = () => {
+    let imageLink =
+      "https://unnimedios.com.mx/wp-content/uploads/2021/11/Image-Not-Available.png";
+    if (comicInfo.images.length !== 0) {
+      imageLink =
+        comicInfo.images[0].path + "." + comicInfo.images[0].extension;
+    }
+    return imageLink;
+  };
   return (
     <div
       style={{
@@ -28,10 +36,7 @@ const ComicCard = ({ comicInfo }) => {
         style={{
           width: "100%",
           height: "200px",
-          backgroundImage:
-            "url(" +
-            "https://www.mudanzaexpress.cl/wp-content/uploads/2019/06/white_box_truck-768x512.jpeg" +
-            ")",
+          backgroundImage: "url(" + getImage() + ")",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
           backgroundSize: "cover",
